@@ -12,8 +12,8 @@ router.get('/orders', cors.applyCors(), (req, res) =>{
     });
 });
 
-router.options('/order', cors.applyCors());
-router.post('/order', cors.applyCors(), (req, res) => {
+router.options('/order/:facebookId', cors.applyCors());
+router.post('/order/:facebookId', cors.applyCors(), (req, res) => {
     const orderInfo = req.body;
     orderCollection().findOne({facebookId: orderInfo.facebookId, messageId: orderInfo.messageId}, function(err, result) {
         if (err) throw err;
@@ -26,7 +26,8 @@ router.post('/order', cors.applyCors(), (req, res) => {
                 phone: orderInfo.phone,  
                 size: orderInfo.size,
                 name: orderInfo.name,
-                fbLink: orderInfo.fbLink
+                fbLink: orderInfo.fbLink,
+				color: orderInfo.color,
             }};
             orderCollection().updateOne({facebookId: orderInfo.facebookId, messageId: orderInfo.messageId}, newvalues, function(err, res) {
             if (err) throw err;
