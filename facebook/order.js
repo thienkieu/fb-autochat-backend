@@ -29,6 +29,7 @@ router.post('/order/:facebookId', cors.applyCors(), (req, res) => {
                 fbLink: orderInfo.fbLink,
 				color: orderInfo.color,
 				facebookId:orderInfo.facebookId,
+				createDate: orderInfo.createDate,
             }};
             orderCollection().updateOne({facebookId: orderInfo.facebookId}, newvalues, function(err, res) {
             if (err) throw err;
