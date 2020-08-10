@@ -4,16 +4,15 @@ var db = require('../db');
 var accountCollection = db.accountCollection;
 var cors =  require('../cors');
 
-router.options('/accounts', cors.applyCors());
-router.get('/accounts', cors.applyCors(), (req, res) =>{
+
+router.get('/accounts', (req, res) =>{
     accountCollection().find({}).toArray(function(err, result) {
         if (err) throw err;
         res.json(result);
     });
 });
 
-router.options('/account', cors.applyCors());
-router.post('/account', cors.applyCors(), (req, res) => {
+router.post('/account', (req, res) => {
     const account = req.body;
     accountCollection().findOne({facebookId: account.facebookId}, function(err, result) {
         if (err) throw err;

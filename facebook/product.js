@@ -5,8 +5,8 @@ var db = require('../db');
 var productCollection = db.productCollection;
 var cors =  require('../cors');
 
-router.options('/products/:facebookId/:pageNumber', cors.applyCors());
-router.get('/products/:facebookId/:pageNumber', cors.applyCors(), (req, res) =>{
+
+router.get('/products/:facebookId/:pageNumber', (req, res) =>{
     const params = req.params;
     const pageNumber = parseInt(req.params.pageNumber);
     if (isNaN(pageNumber) || pageNumber < 1) pageNumber = 1;
@@ -16,8 +16,8 @@ router.get('/products/:facebookId/:pageNumber', cors.applyCors(), (req, res) =>{
     });
 });
 
-router.options('/product/:productId/answers', cors.applyCors());
-router.get('/product/:productId/answers', cors.applyCors(), (req, res) =>{
+
+router.get('/product/:productId/answers', (req, res) =>{
     const params = req.params;
     productCollection().findOne({productId: params.productId}, function(err, result) {
         if (err) throw err;
@@ -25,8 +25,7 @@ router.get('/product/:productId/answers', cors.applyCors(), (req, res) =>{
     });
 });
 
-router.options('/product/:productId/answer/:intent', cors.applyCors());
-router.get('/product/:productId/answer/:intent', cors.applyCors(), (req, res) =>{
+router.get('/product/:productId/answer/:intent', (req, res) =>{
     const params = req.params;
     console.log(params)
     const generalIntent = {
@@ -66,8 +65,7 @@ router.get('/product/:productId/answer/:intent', cors.applyCors(), (req, res) =>
     });
 });
 
-router.options('/updateProductList/:facebookId', cors.applyCors());
-router.post('/updateProductList/:facebookId', cors.applyCors(), (req, res) => {
+router.post('/updateProductList/:facebookId', (req, res) => {
     const products = req.body;
     const params = req.params;
     products.forEach(element => {
@@ -113,8 +111,7 @@ router.post('/updateProductList/:facebookId', cors.applyCors(), (req, res) => {
     res.send('ok');
 });
 
-router.options('/updateProductInfo', cors.applyCors());
-router.post('/updateProductInfo', cors.applyCors(), (req, res) => {
+router.post('/updateProductInfo', (req, res) => {
     const productInfo = JSON.stringify(req.body);
     const query = {productId: productInfo.productId};
     const newValues = {
@@ -150,8 +147,7 @@ router.post('/updateProductInfo', cors.applyCors(), (req, res) => {
     
 });
 
-router.options('/addAnswer', cors.applyCors());
-router.post('/addAnswer', cors.applyCors(), (req, res) => {
+router.post('/addAnswer', (req, res) => {
     const answerInfo = req.body;
     productCollection().findOne({productId: answerInfo.productId}, function(err, result) {
         if (err) throw err;
@@ -195,8 +191,7 @@ router.post('/addAnswer', cors.applyCors(), (req, res) => {
     
 });
 
-router.options('/updateAnswer', cors.applyCors());
-router.post('/updateAnswer', cors.applyCors(), (req, res) => {
+router.post('/updateAnswer', (req, res) => {
     const answerInfo = req.body;
     
     productCollection().findOne({productId: answerInfo.productId}, function(err, result) {

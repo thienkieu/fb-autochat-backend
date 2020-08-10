@@ -4,16 +4,15 @@ var db = require('../db');
 var orderCollection = db.orderCollection;
 var cors =  require('../cors');
 
-router.options('/orders', cors.applyCors());
-router.get('/orders', cors.applyCors(), (req, res) =>{
+
+router.get('/orders', (req, res) =>{
     orderCollection().find({}).toArray(function(err, result) {
         if (err) throw err;
         res.json(result);
     });
 });
 
-router.options('/order/:facebookId', cors.applyCors());
-router.post('/order/:facebookId', cors.applyCors(), (req, res) => {
+router.post('/order/:facebookId', (req, res) => {
     const orderInfo = req.body;
     orderCollection().findOne({facebookId: orderInfo.facebookId}, function(err, result) {
         if (err) throw err;
