@@ -2,16 +2,19 @@ var facebookRouter = require('./facebook/product');
 var accountRouter = require('./facebook/account');
 var orderRouter = require('./facebook/order');
 
-const express = require('express')
-const app = express()
-const port = process.env.PORT || 3000
+const express = require('express');
+const port = process.env.PORT || 3001;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use('/facebook', facebookRouter);
-app.use('/facebook', accountRouter);
-app.use('/facebook', orderRouter);
+(async () => {
+    const server = express()
+    server.use(express.json());
+    server.use(express.urlencoded({ extended: false }));
+    server.use('/facebook', facebookRouter);
+    server.use('/facebook', accountRouter);
+    server.use('/facebook', orderRouter);
+  
+    server.get('/', (req, res) => res.send('Hello World!'))
 
-app.get('/', (req, res) => res.send('Hello World!'))
-
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+    await server.listen(port)
+    console.log(`> Ready on http://localhost:${port}`) // eslint-disable-line no-console
+  })()
