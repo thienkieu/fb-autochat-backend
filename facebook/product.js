@@ -4,7 +4,7 @@ var request = require('request');
 var db = require('../db');
 var productCollection = db.productCollection;
 var cors = require('cors');
-var whitelist = ['http://localhost:3000', 'https://www.facebook.com']
+var whitelist = ['https://fb-autochat.herokuapp.com', 'https://www.facebook.com']
 
 var corsOptions = {
     origin: function (origin, callback) {
